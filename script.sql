@@ -1,14 +1,10 @@
-# backend_android
-To get data via curl :
-curl -v GET http://localhost:3000/biodata/get_biodata    
-To get data via browser :
-http://localhost:3000/biodata/get_biodata  
+Script sql
 
+create table biodata
+-- Table: public.biodata
 
-To create DB via cmd/terminal :
-psql -U postgres example
-\c
-create database example;
+-- DROP TABLE IF EXISTS public.biodata;
+
 CREATE TABLE IF NOT EXISTS public.biodata
 (
     id uuid,
@@ -18,4 +14,9 @@ CREATE TABLE IF NOT EXISTS public.biodata
     nik character varying(17) COLLATE pg_catalog."default",
     alamat text COLLATE pg_catalog."default",
     jurusan character varying(30) COLLATE pg_catalog."default"
-);
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.biodata
+    OWNER to postgres;
