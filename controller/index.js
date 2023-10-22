@@ -1,38 +1,182 @@
-var os = require('os');
-var path = require('path');
-const connection = require('../config/config')    
-var nodemailer = require('nodemailer');
-var crypto = require("crypto")
-var key = process.env.KEY_CRYPTO;
-require('dotenv').config();
-const host_email = process.env.HOST_EMAIL;
-const ssl_email = process.env.SSL_EMAIL;
-const port_email = process.env.PORT_EMAIL;
-const username_email = process.env.USERNAME_EMAIL;
-const password_email = process.env.PASSWORD_EMAIL;
-const flag = process.env.FLAG_PENCAKER;
-var ip = require('ip');
-const DeviceDetector = require('node-device-detector');
-const DeviceHelper = require('node-device-detector/helper');
+const connection = require("../config/config");
+const { v4: uuidv4 } = require('uuid');
 
-exports.get_biodata=function(req,res){
-  connection.query("select * from biodata",(error,biodata,fields)=>{
-                        if (error) {
-                              throw error
-                        }
-                        const biodatas = biodata.rows.map((item) => {
-                          const arr = {};
-                          arr.id = item.id;
-                          arr.nama_lengkap = item.nama_lengkap;
-                          arr.tempat_lahir = item.tempat_lahir;
-                          arr.tanggal_lahir = item.tanggal_lahir;
-                          arr.nik = item.nik;
-                          arr.alamat = item.alamat;
-                          arr.jurusan = item.jurusan;
-                          const arrGifting = arr;
-                          return arrGifting;
+exports.get_registrasi = function (req, res) {
+  const id = uuidv4();
+  connection.query("select * from registrasi", (error, registrasi, fields) => {
+    if (error) {
+      throw error;
+    }
+    const registrasiArray = registrasi.rows.map((item) => {
+      const arr = {};
+      arr.id = item.id;
+      arr.nik = item.nik;
+      arr.nama_lgkp = item.nama_lgkp;
+      arr.tpt_lhr = item.tpt_lhr;
+      arr.tgl_lhr = item.tgl_lhr;
+      arr.no_hp = item.no_hp;
+      arr.peminatan_jurusan = item.peminatan_jurusan;
+      arr.thn_lulus = item.thn_lulus;
+      arr.nilai_akhir = item.nilai_akhir;
+      arr.asal_sekolah = item.asal_sekolah;
+      arr.asal_wilayah = item.asal_wilayah;
+      const arrGifting = arr;
+      return arrGifting;
+    });
+    res.json({ result: registrasiArray });
+  });
+}
+exports.get_registrasi_by_id = function (req, res) {
+  const id = req.params.id;
+  connection.query(
+    "select * from registrasi where id= $1",
+    [id],
+    (error, registrasi, fields) => {
+      if (error) {
+        throw error;
+      }
+      const registrasiArray = registrasi.rows.map((item) => {
+        const arr = {};
+        arr.id = item.id;
+        arr.nik = item.nik;
+        arr.nama_lgkp = item.nama_lgkp;
+        arr.tpt_lhr = item.tpt_lhr;
+        arr.tgl_lhr = item.tgl_lhr;
+        arr.no_hp = item.no_hp;
+        arr.peminatan_jurusan = item.peminatan_jurusan;
+        arr.thn_lulus = item.thn_lulus;
+        arr.nilai_akhir = item.nilai_akhir;
+        arr.asal_sekolah = item.asal_sekolah;
+        arr.asal_wilayah = item.asal_wilayah;
+        const arrGifting = arr;
+        return arrGifting;
+      });
+      res.json({ result: registrasiArray });
+    }
+  );
+}
+exports.insert_registrasi = function (req, res) {
+  const id = uuidv4();
+  const nik = req.body.nik;
+  const nama_lgkp = req.body.nama_lgkp;
+  const tpt_lhr = req.body.tpt_lhr;
+  const tgl_lhr = req.body.tgl_lhr;
+  const no_hp = req.body.no_hp;
+  const peminatan_jurusan = req.body.peminatan_jurusan;
+  const thn_lulus = req.body.thn_lulus;
+  const nilai_akhir = req.body.nilai_akhir;
+  const asal_sekolah = req.body.asal_sekolah;
+  const asal_wilayah = req.body.asal_wilayah;
+  const values = [
+    id,
+    nik,
+    nama_lgkp,
+    tpt_lhr,
+    tgl_lhr,
+    no_hp,
+    peminatan_jurusan,
+    thn_lulus,
+    nilai_akhir,
+    asal_sekolah,
+    asal_wilayah
+  ];
+  connection.query('insert into registrasi  (id,nik,nama_lgkp,tpt_lhr,tgl_lhr,no_hp,peminatan_jurusan,thn_lulus,nilai_akhir,asal_sekolah,asal_wilayah) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)',values,(error,insert, fields)=>{
+    if (error) {
+              throw error
+        }
+        const registrasiArray = insert.rows.map((item) => {
+          const arr = {};
+          arr.id = item.id;
+          arr.nik = item.nik;
+          arr.nama_lgkp = item.nama_lgkp;
+          arr.tpt_lhr = item.tpt_lhr;
+          arr.tgl_lhr = item.tgl_lhr;
+          arr.no_hp = item.no_hp;
+          arr.peminatan_jurusan = item.peminatan_jurusan;
+          arr.thn_lulus = item.thn_lulus;
+          arr.nilai_akhir = item.nilai_akhir;
+          arr.asal_sekolah = item.asal_sekolah;
+          arr.asal_wilayah = item.asal_wilayah;
+          const arrGifting = arr;
+          return arrGifting;
+        });
+        res.json({ result: registrasiArray });
+          })
+        };
+        exports.update_registrasi_by_id = function (req, res) {
+          const nik = req.body.nik;
+          const nama_lgkp = req.body.nama_lgkp;
+          const tpt_lhr = req.body.tpt_lhr;
+          const tgl_lhr = req.body.tgl_lhr;
+          const no_hp = req.body.no_hp;
+          const peminatan_jurusan = req.body.peminatan_jurusan;
+          const thn_lulus = req.body.thn_lulus;
+          const nilai_akhir = req.body.nilai_akhir;
+          const asal_sekolah = req.body.asal_sekolah;
+          const asal_wilayah = req.body.asal_wilayah;
+          const id = req.params.id;
+          const values = [
+            nik,
+            nama_lgkp,
+            tpt_lhr,
+            tgl_lhr,
+            no_hp,
+            peminatan_jurusan,
+            thn_lulus,
+            nilai_akhir,
+            asal_sekolah,
+            asal_wilayah,
+            id
+          ];
+          connection.query('update registrasi  set nik=$1, nama_lgkp=$2,tpt_lhr=$3,tgl_lhr=$4, no_hp=$5,peminatan_jurusan=$6,thn_lulus=$7,nilai_akhir=$8,asal_sekolah=$9,asal_wilayah=$10 where id=$11',values,(error,update, fields)=>{
+            if (error) {
+                      throw error
+                }
+                const registrasiArray = update.rows.map((item) => {
+                  const arr = {};
+                  arr.id = item.id;
+                  arr.nik = item.nik;
+                  arr.nama_lgkp = item.nama_lgkp;
+                  arr.tpt_lhr = item.tpt_lhr;
+                  arr.tgl_lhr = item.tgl_lhr;
+                  arr.no_hp = item.no_hp;
+                  arr.peminatan_jurusan = item.peminatan_jurusan;
+                  arr.thn_lulus = item.thn_lulus;
+                  arr.nilai_akhir = item.nilai_akhir;
+                  arr.asal_sekolah = item.asal_sekolah;
+                  arr.asal_wilayah = item.asal_wilayah;
+                  const arrGifting = arr;
+                  return arrGifting;
+                });
+                res.json({ result: registrasiArray });
+                  })
+                };
+                exports.delete_registrasi_by_id = function (req, res) {
+                  const id = req.params.id;
+                  connection.query(
+                    "delete from registrasi where id= $1",
+                    [id],
+                    (error, registrasi, fields) => {
+                      if (error) {
+                        throw error;
+                      }
+                      const registrasiArray = registrasi.rows.map((item) => {
+                        const arr = {};
+                        arr.id = item.id;
+                        arr.nik = item.nik;
+                        arr.nama_lgkp = item.nama_lgkp;
+                        arr.tpt_lhr = item.tpt_lhr;
+                        arr.tgl_lhr = item.tgl_lhr;
+                        arr.no_hp = item.no_hp;
+                        arr.peminatan_jurusan = item.peminatan_jurusan;
+                        arr.thn_lulus = item.thn_lulus;
+                        arr.nilai_akhir = item.nilai_akhir;
+                        arr.asal_sekolah = item.asal_sekolah;
+                        arr.asal_wilayah = item.asal_wilayah;
+                        const arrGifting = arr;
+                        return arrGifting;
                       });
-                      res.json({result:biodatas});
-        
-})
-};
+                      res.json({ result: registrasiArray });
+                    }
+                  );
+                }

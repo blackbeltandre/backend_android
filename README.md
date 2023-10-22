@@ -19,3 +19,19 @@ CREATE TABLE IF NOT EXISTS public.biodata
     alamat text COLLATE pg_catalog."default",
     jurusan character varying(30) COLLATE pg_catalog."default"
 );
+
+
+Body :
+{
+"id":"754a8293-3656-4e30-aa13-70044943ce70",
+"nik": "1271112422424",
+"nama_lgkp": "dina",
+"tpt_lhr": "Surabaya",
+"tgl_lhr": "2001-10-12",
+"no_hp": "08652525252",
+"peminatan_jurusan": "Teknik Informatika",
+"thn_lulus": "2019",
+"nilai_akhir": "82",
+"asal_sekolah": "SMAN 2",
+"asal_wilayah": "Bandung"
+}
