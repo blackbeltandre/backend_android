@@ -78,6 +78,30 @@ exports.insert_registrasi = function (req, res) {
   const email = req.body.email;
   const foto = req.body.foto;
   const flag = req.body.flag;
+
+  connection.query('select * from registrasi where email=$1', [email],function(error,cek_email){
+    if(cek_email.rows.length != 0){
+      const registrasiArray = cek_email.rows.map((item) => {
+        const arr = {};
+        arr.id = item.id;
+        arr.nik = item.nik;
+        arr.nama_lgkp = item.nama_lgkp;
+        arr.tpt_lhr = item.tpt_lhr;
+        arr.tgl_lhr = item.tgl_lhr;
+        arr.no_hp = item.no_hp;
+        arr.peminatan_jurusan = item.peminatan_jurusan;
+        arr.thn_lulus = item.thn_lulus;
+        arr.nilai_akhir = item.nilai_akhir;
+        arr.asal_sekolah = item.asal_sekolah;
+        arr.asal_wilayah = item.asal_wilayah;
+        arr.email = item.email;
+        arr.foto = item.foto;
+        arr.flag = item.flag;
+        const arrGifting = arr;
+        return arrGifting;
+      });
+      res.json({ result: registrasiArray });
+    }else{
   const values = [
     id,
     nik,
@@ -123,7 +147,7 @@ exports.insert_registrasi = function (req, res) {
       res.json({ result: registrasiArray });
     }
   );
-};
+}})}
 
 //update record
 exports.update_registrasi_by_id = function (req, res) {
