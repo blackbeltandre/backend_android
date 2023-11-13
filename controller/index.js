@@ -162,7 +162,6 @@ exports.update_registrasi_by_id = function (req, res) {
   const nilai_akhir = req.body.nilai_akhir;
   const asal_sekolah = req.body.asal_sekolah;
   const asal_wilayah = req.body.asal_wilayah;
-  const email = req.body.email;
   const foto = req.body.foto;
   const flag = req.body.flag;
   const id = req.params.id;
