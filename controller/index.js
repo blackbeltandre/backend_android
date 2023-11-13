@@ -162,6 +162,8 @@ exports.update_registrasi_by_id = function (req, res) {
   const nilai_akhir = req.body.nilai_akhir;
   const asal_sekolah = req.body.asal_sekolah;
   const asal_wilayah = req.body.asal_wilayah;
+  const foto = req.body.foto;
+  const flag = req.body.flag;
   const id = req.params.id;
   const values = [
     nik,
@@ -175,10 +177,12 @@ exports.update_registrasi_by_id = function (req, res) {
     asal_sekolah,
     asal_wilayah,
     id,
-    email
+    email,
+    foto,
+    flag
   ];
   connection.query(
-    "update registrasi  set nik=$1, nama_lgkp=$2,tpt_lhr=$3,tgl_lhr=$4, no_hp=$5,peminatan_jurusan=$6,thn_lulus=$7,nilai_akhir=$8,asal_sekolah=$9,asal_wilayah=$10,email=$11 where id=$11",
+    "update registrasi  set nik=$1, nama_lgkp=$2,tpt_lhr=$3,tgl_lhr=$4, no_hp=$5,peminatan_jurusan=$6,thn_lulus=$7,nilai_akhir=$8,asal_sekolah=$9,asal_wilayah=$10,email=$12,foto=13,flag=14 where id=$11",
     values,
     (error, update, fields) => {
       if (error) {
