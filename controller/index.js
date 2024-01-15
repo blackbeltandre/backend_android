@@ -21,7 +21,6 @@ exports.get_registrasi = function (req, res) {
       arr.nilai_akhir = item.nilai_akhir;
       arr.asal_sekolah = item.asal_sekolah;
       arr.email = item.email;
-      arr.foto = 'http://0.0.0.0:3001/public/img/'+item.foto;
       arr.flag = item.flag;
 
       const arrGifting = arr;
@@ -30,6 +29,7 @@ exports.get_registrasi = function (req, res) {
     res.json({ result: registrasiArray });
   });
 };
+
 //display records by id
 exports.get_registrasi_by_id = function (req, res) {
   const id = req.params.id;
